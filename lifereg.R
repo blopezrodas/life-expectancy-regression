@@ -57,4 +57,20 @@ labels <- c(
   "Income Composition of Resources",
   "Schooling")
 # Call plots function
-plots(who$Life.expectancy, m, labels)
+# plots(who$Life.expectancy, m, labels)
+
+# Variable selection
+library(leaps)
+attach(who)
+forward <- regsubsets(
+    x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+    y = Life.expectancy,
+    method = "forward"
+)
+summary_forward <- summary(forward)
+# backward <- regsubsets(
+#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+#     y = y,
+#     method = "backward"
+# )
+# summary_backward <- summary(backward)
