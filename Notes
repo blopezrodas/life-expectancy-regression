@@ -1,0 +1,11 @@
+Variable Transformations:
+
+GDP -> log
+HIV -> exp decay
+Measles - log
+income.comp -> great/no transformation
+BMI -> leave as is
+polio -> fine
+schooling -> great
+Diphteria -> maybe square
+
