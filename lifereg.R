@@ -23,10 +23,6 @@ who$GDP <- log(who$GDP)
 who$HIV.AIDS <- exp((-who$HIV.AIDS))
 who$Measles <- log(who$Measles)
 
-#Variable Selection
-library(leaps)
-who <- who[!is.na(who), ]
-forward <- regsubsets(x = who[c('GDP', 'HIV.AIDS', 'Measles', 'BMI', 'Income.composition.of.resources', 'Schooling', 'Diphtheria')], y = who$Life.expectancy, method = forward)
 
 
 # # Plots the response against each predictor in matrix m
