@@ -15,13 +15,16 @@ who <- who[c('Life.expectancy',
              'BMI',
              'Polio',
              'GDP',
-             'Income.composition.of.resources')]
+             'Income.composition.of.resources',
+             'HIV.AIDS')]
 who <- na.omit(who)
 
 #variable transformations
 who$GDP <- log(who$GDP)
-who$HIV.AIDS <- exp((-who$HIV.AIDS))
+who$HIV.AIDS <- exp(-(who$HIV.AIDS))
 who$Measles <- log(who$Measles)
+
+#Variable Selection
 
 
 #test
@@ -76,4 +79,24 @@ who$Measles <- log(who$Measles)
 # Call plots function
 # plots(who$Life.expectancy, m, labels)
 
+<<<<<<< HEAD
 
+=======
+# Variable selection
+library(leaps)
+attach(who)
+who <- na.omit(who)
+
+# forward <- regsubsets(
+#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+#     y = Life.expectancy,
+#     method = "forward"
+# )
+# summary_forward <- summary(forward)
+# backward <- regsubsets(
+#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+#     y = y,
+#     method = "backward"
+# )
+# summary_backward <- summary(backward)
+>>>>>>> 16851e459617749695df02d0ad9061182bb29cb1
