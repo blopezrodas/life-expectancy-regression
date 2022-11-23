@@ -24,7 +24,7 @@ who$HIV.AIDS <- exp((-who$HIV.AIDS))
 who$Measles <- log(who$Measles)
 
 
-
+#test
 # # Plots the response against each predictor in matrix m
 # plots <- function(y, m, labels) {
 #   for (i in 1:ncol(m)) {
