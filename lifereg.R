@@ -62,12 +62,14 @@ labels <- c(
 # Variable selection
 library(leaps)
 attach(who)
-forward <- regsubsets(
-    x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
-    y = Life.expectancy,
-    method = "forward"
-)
-summary_forward <- summary(forward)
+who <- na.omit(who)
+
+# forward <- regsubsets(
+#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+#     y = Life.expectancy,
+#     method = "forward"
+# )
+# summary_forward <- summary(forward)
 # backward <- regsubsets(
 #     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
 #     y = y,
