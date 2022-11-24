@@ -86,6 +86,7 @@ who$Measles <- log(who$Measles)
 # Variable Selection
 library(leaps)
 attach(who)
+n <- nrow(who)
 
 forward <- regsubsets(
     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
@@ -99,3 +100,29 @@ backward <- regsubsets(
     method = "backward"
 )
 summary_backward <- summary(backward)
+
+exhaustive <- regsubsets(
+    x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+    y = Life.expectancy,
+    method = "exhaustive",
+    all.best = FALSE,
+    nbest = 3
+)
+summary_exhaustive <- summary(exhaustive)
+
+# Extract Statistics
+R2 <- summary_exhaustive$rsq
+AdjR2 <- summary_exhaustive$adjr2
+SSRes <- summary_exhaustive$rss
+Cp <- summary_exhaustive$cp
+models <- summary_exhaustive$which
+
+# Calculate number of parameters for each model
+p <- apply(models, 1, sum)
+
+# Calculate MSRes for each model
+MSRes <- SSRes / (n - p)
+
+# Create table of models and statistics
+table <- cbind(p, models, R2, AdjR2, MSRes, Cp, p - Cp)
+colnames(table)[ncol(table)] <- "p - Cp"
