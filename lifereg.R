@@ -16,15 +16,15 @@ who <- who[c('Life.expectancy',
              'Polio',
              'GDP',
              'Income.composition.of.resources',
-             'HIV.AIDS')]
+             'HIV.AIDS',
+             'Diphtheria',
+             'Schooling')]
 who <- na.omit(who)
 
 #variable transformations
 who$GDP <- log(who$GDP)
 who$HIV.AIDS <- exp(-(who$HIV.AIDS))
 who$Measles <- log(who$Measles)
-
-#Variable Selection
 
 
 #test
@@ -61,42 +61,37 @@ who$Measles <- log(who$Measles)
 #   dim = c(nrow(who), 15))
 # Create labels for quantitative predictors
 # labels <- c(
-  "Adult Mortality",
-  "Infant Deaths",
-  "Percentage Expenditure",
-  "Hepatitis B",
-  "Measles",
-  "BMI",
-  "Deaths of Children Under 5",
-  "Polio",
-  "Total Expenditure",
-  "Diphtheria",
-  "HIV/AIDS",
-  "GDP",
-  "Population",
-  "Income Composition of Resources",
-  "Schooling")
+  # "Adult Mortality",
+  # "Infant Deaths",
+  # "Percentage Expenditure",
+  # "Hepatitis B",
+  # "Measles",
+  # "BMI",
+  # "Deaths of Children Under 5",
+  # "Polio",
+  # "Total Expenditure",
+  # "Diphtheria",
+  # "HIV/AIDS",
+  # "GDP",
+  # "Population",
+  # "Income Composition of Resources",
+  # "Schooling")
 # Call plots function
 # plots(who$Life.expectancy, m, labels)
 
-<<<<<<< HEAD
-
-=======
 # Variable selection
 library(leaps)
 attach(who)
-who <- na.omit(who)
 
-# forward <- regsubsets(
-#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
-#     y = Life.expectancy,
-#     method = "forward"
-# )
-# summary_forward <- summary(forward)
-# backward <- regsubsets(
-#     x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
-#     y = y,
-#     method = "backward"
-# )
-# summary_backward <- summary(backward)
->>>>>>> 16851e459617749695df02d0ad9061182bb29cb1
+forward <- regsubsets(
+    x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+    y = Life.expectancy,
+    method = "forward"
+)
+summary_forward <- summary(forward)
+backward <- regsubsets(
+    x = cbind(BMI, Polio, Diphtheria, HIV.AIDS, GDP, Income.composition.of.resources, Schooling),
+    y = Life.expectancy,
+    method = "backward"
+)
+summary_backward <- summary(backward)
