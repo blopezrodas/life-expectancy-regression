@@ -1,11 +1,15 @@
+# Authors: Brenda Lopez Rodas and Rajiv Iyengar
+# Life Expectancy Regression Analysis
+
+# Import WHO Life Expectancy data
 who <- read.csv(file = 'life_data.csv')
 who <- who[who$Year == 2015,]
 
-#Re-code 'Status' (0 for developing, 1 for developed)
+# Re-code 'Status' (0 for developing, 1 for developed)
 who[who$Status == 'Developing', 'Status'] <- 0
 who[who$Status == 'Developed', 'Status'] <- 1
 
-#Drop alcohol, totalexp col, too many NA
+# Drop columns alcohol and totalexp (too many NA values)
 who <- who[, c(1:6, 8:13, 15:22)]
 who <- who[c('Life.expectancy',
              'Status',
@@ -19,15 +23,10 @@ who <- who[c('Life.expectancy',
              'HIV.AIDS',
              'Diphtheria',
              'Schooling')]
+# Delete rows with NA values
 who <- na.omit(who)
 
-#variable transformations
-who$GDP <- log(who$GDP)
-who$HIV.AIDS <- exp(-(who$HIV.AIDS))
-who$Measles <- log(who$Measles)
-
-
-#test
+# Check for absence of a linear relationship to determine transformations
 # # Plots the response against each predictor in matrix m
 # plots <- function(y, m, labels) {
 #   for (i in 1:ncol(m)) {
@@ -59,7 +58,7 @@ who$Measles <- log(who$Measles)
 #     who$Income.composition.of.resources,
 #     who$Schooling),
 #   dim = c(nrow(who), 15))
-# Create labels for quantitative predictors
+# Create vector of labels for quantitative predictors
 # labels <- c(
   # "Adult Mortality",
   # "Infant Deaths",
@@ -79,7 +78,12 @@ who$Measles <- log(who$Measles)
 # Call plots function
 # plots(who$Life.expectancy, m, labels)
 
-# Variable selection
+# Variable Transformations
+who$GDP <- log(who$GDP)
+who$HIV.AIDS <- exp(-(who$HIV.AIDS))
+who$Measles <- log(who$Measles)
+
+# Variable Selection
 library(leaps)
 attach(who)
 
