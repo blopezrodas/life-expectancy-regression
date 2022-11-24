@@ -145,3 +145,7 @@ MSRes <- SSRes / (n - p)
 # Create table of models and statistics
 table <- cbind(p, models, R2, AdjR2, MSRes, Cp, p - Cp)
 colnames(table)[ncol(table)] <- "p - Cp"
+
+# Check Multicollinearity
+correlation <- cor(predictors)
+VIF <- solve(cor(predictors))
