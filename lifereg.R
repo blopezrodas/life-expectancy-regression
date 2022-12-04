@@ -169,3 +169,26 @@ plot(
     main = "Residual Plot"
 )
 dev.off()
+
+
+# Box-Cox model transformation
+library(MASS)
+jpeg("Box Cox Plot.jpeg")
+BC <- boxcox(fit.final, lambda = seq(-2,6,1/10))
+dev.off()
+max_lambda <- BC$x[BC$y == max(BC$y)]
+
+# confidence interval
+S <- max(BC$y) - 0.5 * qchisq(0.95, 1)
+BC$x[BC$y > S]
+
+fit.boxcox <- lm(I(Life.expectancy^2) ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources, data = who)
+png("Residual Plot Box Cox.png")
+plot(
+    fitted.values(fit.boxcox),
+    rstandard(fit.boxcox),
+    xlab = "Fitted Values",
+    ylab = "Standardized Residuals",
+    main = "Residual Plot"
+)
+dev.off()
