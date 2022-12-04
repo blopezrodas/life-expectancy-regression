@@ -149,3 +149,23 @@ colnames(table)[ncol(table)] <- "p - Cp"
 # Check Multicollinearity
 correlation <- cor(predictors)
 VIF <- solve(cor(predictors))
+
+# Final Model
+fit.final <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources, data = who)
+
+# Check Model Adequacy
+# Check normality
+png("QQ Plot.png")
+qqnorm(resid(fit.final))
+qqline(resid(fit.final))
+dev.off()
+# Check constant variance
+png("Residual Plot.png")
+plot(
+    fitted.values(fit.final),
+    rstandard(fit.final),
+    xlab = "Fitted Values",
+    ylab = "Standardized Residuals",
+    main = "Residual Plot"
+)
+dev.off()
