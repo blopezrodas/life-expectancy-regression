@@ -146,12 +146,19 @@ MSRes <- SSRes / (n - p)
 table <- cbind(p, models, R2, AdjR2, MSRes, Cp, p - Cp)
 colnames(table)[ncol(table)] <- "p - Cp"
 
-# Check Multicollinearity
-correlation <- cor(predictors)
-VIF <- solve(cor(predictors))
-
 # Final Model
-fit.final <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources, data = who)
+fit.final <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources + Status, data = who)
+summary(fit.final)
+
+# Check Multicollinearity
+predictors_final <- cbind(
+  Polio,
+  HIV.AIDS,
+  GDP,
+  Income.composition.of.resources
+)
+correlation <- cor(predictors_final)
+VIF <- solve(cor(predictors_final))
 
 # Check Model Adequacy
 # Check normality
@@ -178,11 +185,17 @@ BC <- boxcox(fit.final, lambda = seq(-2,6,1/10))
 dev.off()
 max_lambda <- BC$x[BC$y == max(BC$y)]
 
-# confidence interval
+# Confidence Interval
 S <- max(BC$y) - 0.5 * qchisq(0.95, 1)
 BC$x[BC$y > S]
 
+# Results:
+# lambda 1 and lambda 2 are both in the confidence interval
+
+# Fitted model with Box Cox transformation (lambda = 2)
 fit.boxcox <- lm(I(Life.expectancy^2) ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources, data = who)
+
+# Residual plot (w/ Box Cox transformation)
 png("Residual Plot Box Cox.png")
 plot(
     fitted.values(fit.boxcox),
