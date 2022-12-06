@@ -147,9 +147,13 @@ MSRes <- SSRes / (n - p)
 table <- cbind(p, models, R2, AdjR2, MSRes, Cp, p - Cp)
 colnames(table)[ncol(table)] <- "p - Cp"
 
-# Final Model
-fit.final <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources + Status, data = who)
-summary(fit.final)
+# Candidate Models
+fit.1 <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources + Status, data = who)
+summary(fit.1)
+fit.2 <- lm(Life.expectancy ~ Hepatitis.B + Polio + HIV.AIDS + GDP + Income.composition.of.resources + Status, data = who)
+summary(fit.2)
+fit.3 <- lm(Life.expectancy ~ Hepatitis.B + Polio + HIV.AIDS + GDP + Income.composition.of.resources + Schooling + Status, data = who)
+summary(fit.3)
 
 # Check Multicollinearity
 predictors_final <- cbind(
@@ -160,6 +164,58 @@ predictors_final <- cbind(
 )
 correlation <- cor(predictors_final)
 VIF <- solve(cor(predictors_final))
+
+# QQ Plots and Residual Plots to Compare Models
+# ---------- Model 1 ----------
+# qq-plot of the residuals
+jpeg("QQ Plot - Model 1.jpeg")
+qqnorm(resid(fit.1), main = "Q-Q Plot \n Model 1")
+qqline(resid(fit.1))
+dev.off()
+# Residual Plot
+y_hat1 <- fitted.values(fit.1)     # fitted response values
+standard1 <- rstandard(fit.1)      # standardized residuals
+jpeg("Standardized Residuals Plot - Model 1.jpeg")
+plot(y_hat1, standard1,
+    xlab = "Predicted Response Values",
+    ylab = "Standardized Residuals",
+    main = "Solar Data - Residual Plot \n Model 1")
+dev.off()
+
+# ---------- Model 2 ----------
+jpeg("QQ Plot - Model 2.jpeg")
+qqnorm(resid(fit.2), main = "Q-Q Plot \n Model 2")
+qqline(resid(fit.2))
+dev.off()
+# Residual Plot
+y_hat2 <- fitted.values(fit.2)     # fitted response values
+standard2 <- rstandard(fit.2)      # standardized residuals
+jpeg("Standardized Residuals Plot - Model 2.jpeg")
+plot(y_hat2, standard2,
+    xlab = "Predicted Response Values",
+    ylab = "Standardized Residuals",
+    main = "Solar Data - Residual Plot \n Model 2")
+dev.off()
+
+# ---------- Model 3 ----------
+jpeg("QQ Plot - Model 3.jpeg")
+qqnorm(resid(fit.3), main = "Q-Q Plot \n Model 3")
+qqline(resid(fit.3))
+dev.off()
+# Residual Plot
+y_hat3 <- fitted.values(fit.3)     # fitted response values
+standard3 <- rstandard(fit.3)      # standardized residuals
+jpeg("Standardized Residuals Plot - Model 3.jpeg")
+plot(y_hat3, standard3,
+    xlab = "Predicted Response Values",
+    ylab = "Standardized Residuals",
+    main = "Solar Data - Residual Plot \n Model 3")
+dev.off()
+
+
+# ------------------------- Final Model -------------------------
+fit.final <- lm(Life.expectancy ~ Polio + HIV.AIDS + GDP + Income.composition.of.resources + Status, data = who)
+summary(fit.final)
 
 # Check Model Adequacy
 # Check normality
@@ -177,7 +233,6 @@ plot(
     main = "Residual Plot"
 )
 dev.off()
-
 
 # Box-Cox model transformation
 library(MASS)
@@ -203,6 +258,6 @@ plot(
     rstandard(fit.boxcox),
     xlab = "Fitted Values",
     ylab = "Standardized Residuals",
-    main = "Residual Plot"
+    main = "Residual Plot with \n Box Cox Transformation \n (Life.expectancy^2)"
 )
 dev.off()
