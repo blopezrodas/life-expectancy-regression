@@ -100,6 +100,7 @@ library(leaps)
 attach(who)
 n <- nrow(who)
 predictors <- cbind(
+  Hepatitis.B,
   BMI,
   Polio,
   Diphtheria,
