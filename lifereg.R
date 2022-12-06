@@ -85,7 +85,7 @@ who <- na.omit(who)
 
 # Variable Transformations
 who$GDP <- log(who$GDP)
-who$HIV.AIDS <- -exp(-(who$HIV.AIDS))
+who$HIV.AIDS <- exp(-(who$HIV.AIDS))
 who$Measles <- log(who$Measles)
 
 # Plot Response vs Transformed Predictors
