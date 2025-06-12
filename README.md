@@ -57,7 +57,7 @@ Let `y = Life Expectancy` and:
 
 **Model Equation**: y = 41.398 + 0.0246x₁ + 8.059x₂ - 0.275x₃ + 34.968x₄ + 1.134x₅
 
-## 📈 Model Adequacy & Diagnostics
+## Model Adequacy & Diagnostics
 
 #### Assumptions Checked
 
